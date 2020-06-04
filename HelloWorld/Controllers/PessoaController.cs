@@ -57,6 +57,12 @@ namespace HelloWorld.Controllers
             }
         }
 
+        public ActionResult Details(int id)
+        {
+            var pessoa = Pessoas.FirstOrDefault(x => x.Id == id);
+            return View(pessoa);
+        }
+
         // GET: Pessoa/Edit/5
         public ActionResult Edit(int id)
         {
