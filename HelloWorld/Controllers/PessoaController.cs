@@ -14,11 +14,20 @@ namespace HelloWorld.Controllers
         public static List<Pessoa> PessoasSearch { get; set; } = new List<Pessoa>();
 
         // GET: Pessoa
-        public ActionResult Index()
+        public ActionResult Index(string procurarPor, string procurar)
         {
+            if (procurarPor == "Nome")
+            {
+                return View(Pessoas.Where(x => x.Nome == procurar || procurar == null).ToList());
+            }
+            if (procurarPor == "Sobrenome")
+            {
+                return View(Pessoas.Where(x => x.Sobrenome.StartsWith(procurar) || procurar == null).ToList());
+            }
+
             return View(Pessoas);
         }
-        public ActionResult Search()
+        public ActionResult IndexSearch()
         {
             return View(PessoasSearch);
         }
@@ -27,20 +36,7 @@ namespace HelloWorld.Controllers
         {
             return View();
         }
-
-        public ActionResult Search1(Pessoa pessoa)
-        {
-            foreach (var pess in Pessoas)
-            {
-                if (pess == pessoa)
-                {
-                    PessoasSearch.Add(pessoa);
-                }
-            }
-
-            return RedirectToAction(nameof(Search));
-        }
-
+       
         // POST: Pessoa/Create
         [HttpPost]
         [ValidateAntiForgeryToken]

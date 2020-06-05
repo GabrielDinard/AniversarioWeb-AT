@@ -9,8 +9,16 @@
 <p>
     <a asp-action="Create">Adicionar pessoa</a>
 </p>
+<div>
+    <a asp-action="Index">Lista completa de pessoas</a>
+</div>
 <p>
-    <a asp-action="Search">Buscar pessoa</a>
+    @using(Html.BeginForm("Index", "Pessoa", FormMethod.Get))
+    {
+        <b>Procurar por:</b> @Html.RadioButton("procurarPor", "Nome") <text>Nome</text>
+        @Html.RadioButton("procurarPor", "Sobrenome") <text>Sobrenome</text><br />
+        @Html.TextBox("procurar") <input type="submit" value="Buscar" />
+    }
 </p>
 <table class="table">
     <thead>
@@ -26,8 +34,17 @@
             </th>
         </tr>
     </thead>
+@if (Model.Count() == 0)
+{
+    <tr> 
+        <td colspan="4">Não existem pessoas</td>
+   </tr>
+}
+else
+{
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model)
+{
         <tr>           
             <td>
                 @Html.DisplayFor(modelItem => item.Nome)
@@ -43,7 +60,9 @@
                 @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
                 @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
             </td>
-        </tr>
-}
+        </tr>}
     </tbody>
+}
 </table>
+
+
